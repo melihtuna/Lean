@@ -1662,6 +1662,9 @@ namespace QuantConnect.Tests.Engine.DataFeeds
 
                     ConsoleWriteLine($"Algorithm time set to {currentTime.ConvertFromUtc(algorithmTimeZone)}");
 
+                    // let's avoid race conditions and give time for the funDataQueueHandler thread to distribute the data among the consolidators
+                    Thread.Sleep(10);
+
                     if (currentTime.ConvertFromUtc(algorithmTimeZone) > endDate)
                     {
                         _feed.Exit();
